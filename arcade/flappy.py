@@ -29,6 +29,7 @@ gravity = 0.15
 speed = 0.5
 
 score = 0
+scoreIncreased = False
 
 running = True
 
@@ -38,7 +39,6 @@ velocity = 0.0
 printing = True
 
 troll = False
-scoreIncreased = False
 
 pipes = [[1600, 350, False], [2000, 400, False], [2400, 200, False], [2800, 530, False], [3200, 101, False]]
 
