@@ -1,5 +1,0 @@
-* TODO Org-Testing [0/2]
-  - [ ] Checkboxes
-  - [ ] Lists
-
-# <C-Space> -> Toggle checkbox
