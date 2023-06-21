@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
     int value = 0;
 
     for(int i = 0; i < 5; i++) {
-        if(*array[i] == '10' || *array[i] == 'Q' || *array[i] == 'J' || *array[i] == 'K')
+        if(*array[i] == 'Z' || *array[i] == 'Q' || *array[i] == 'J' || *array[i] == 'K')
             value += 10;
         else if(*array[i] == '9')
             value += 9;
