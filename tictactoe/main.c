@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     do {
         if(who) {
             int* input = userInput();
-            while(input[0] > 3 || input[1] > 3 || field[input[1]][input[0]] != 0)
+            while(input[0] > 2 || input[1] > 2 || field[input[1]][input[0]] != 0)
                 input = userInput();
 
             field[input[1]][input[0]] = 1;
@@ -149,7 +149,6 @@ int main(int argc, char* argv[]) {
         }
 
         who = !who;
-
         printField();
     } while(hasWon() == 0);
 
