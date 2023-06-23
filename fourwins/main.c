@@ -3,6 +3,7 @@
 #include <string.h>
 
 int field[7][6] = {0};
+int numberOfMoves = 0;
 
 void printField() {
     printf("1 2 3 4 5 6 7\n");
@@ -42,22 +43,22 @@ int getMax(const int pos) {
 int hasWonShort() {
     for(int i = 0; i < 7; i++) {
         for(int j = 0; j < 6; j++) {
-            if(field[i][j] == 2 && 
+            if(i < 3 && field[i][j] == 2 && 
                     field[i][j] == field[i + 1][j] && 
                     field[i][j] == field[i + 2][j])
                 return 1;
 
-            if(field[i][j] == 2 && 
+            if(j < 3 && field[i][j] == 2 && 
                     field[i][j] == field[i][j + 1] && 
                     field[i][j] == field[i][j + 2])
                 return 1;
             
-            if(field[i][j] == 2 && 
+            if(i < 3 && j < 3 && field[i][j] == 2 && 
                     field[i][j] == field[i + 1][j + 1] && 
                     field[i][j] == field[i + 2][j + 2])
                 return 1;
 
-            if(field[i][j] == 2 && 
+            if(i < 3 && j > 1 && field[i][j] == 2 && 
                     field[i][j] == field[i + 1][j - 1] && 
                     field[i][j] == field[i + 2][j - 2])
                 return 1;
@@ -75,25 +76,25 @@ int hasWon() {
             if(field[i][j] == 0)
                 isTie = 0;
 
-            if(field[i][j] != 0 && 
+            if(i < 4 && field[i][j] != 0 && 
                     field[i][j] == field[i + 1][j] && 
                     field[i][j] == field[i + 2][j] && 
                     field[i][j] == field[i + 3][j])
                 return field[i][j];
 
-            if(field[i][j] != 0 && 
+            if(j < 4 && field[i][j] != 0 && 
                     field[i][j] == field[i][j + 1] && 
                     field[i][j] == field[i][j + 2] && 
                     field[i][j] == field[i][j + 3])
                 return field[i][j];
-            if(field[i][j] != 0 && 
-            
+
+            if(i < 4 && j < 4 && field[i][j] != 0 && 
                     field[i][j] == field[i + 1][j + 1] && 
                     field[i][j] == field[i + 2][j + 2] && 
                     field[i][j] == field[i + 3][j + 3])
                 return field[i][j];
 
-            if(field[i][j] != 0 && 
+            if(i < 4 && j > 2 && field[i][j] != 0 && 
                     field[i][j] == field[i + 1][j - 1] && 
                     field[i][j] == field[i + 2][j - 2] && 
                     field[i][j] == field[i + 3][j - 3])
@@ -117,7 +118,7 @@ int walkTree(const int moves) {
             return 1;
     }
 
-    if(moves == 9)
+    if(moves == 8 + (int) (numberOfMoves / 2))
         return hasWonShort();
 
     int value = (moves % 2 == 0 ? -1 : 1);
@@ -128,10 +129,12 @@ int walkTree(const int moves) {
     for(int i = 0; i < 7; i++) {
         int max = getMax(i);
 
+        if(max == -1)
+            continue;
+
         if(field[i][max] == 0) {
             field[i][max] = (moves % 2 == 0 ? 2 : 1);
             const int nValue = walkTree(moves + 1);
-
 
             if((moves % 2 == 0 && nValue > value) || (moves % 2 != 0 && nValue < value)) {
                 value = nValue;
@@ -157,6 +160,9 @@ int* genMove() {
 
     for(int i = 0; i < 7; i++) {
         int max = getMax(i);
+
+        if(max == -1)
+            continue;
 
         if(field[i][max] == 0) {
             field[i][max] = 2;
@@ -212,6 +218,8 @@ int main(int argc, char* argv[]) {
 
         who = !who;
         printField();
+
+        ++numberOfMoves;
     } while(hasWon() == 0);
 
     if(hasWon() == -1)
