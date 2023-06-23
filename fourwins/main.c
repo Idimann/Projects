@@ -36,7 +36,7 @@ int getMax(const int pos) {
             return i;
     }
 
-    return 0;
+    return -1;
 }
 
 int hasWonShort() {
@@ -86,8 +86,8 @@ int hasWon() {
                     field[i][j] == field[i][j + 2] && 
                     field[i][j] == field[i][j + 3])
                 return field[i][j];
-            
             if(field[i][j] != 0 && 
+            
                     field[i][j] == field[i + 1][j + 1] && 
                     field[i][j] == field[i + 2][j + 2] && 
                     field[i][j] == field[i + 3][j + 3])
@@ -131,6 +131,7 @@ int walkTree(const int moves) {
         if(field[i][max] == 0) {
             field[i][max] = (moves % 2 == 0 ? 2 : 1);
             const int nValue = walkTree(moves + 1);
+
 
             if((moves % 2 == 0 && nValue > value) || (moves % 2 != 0 && nValue < value)) {
                 value = nValue;
@@ -193,6 +194,8 @@ int* userInput() {
 
 int main(int argc, char* argv[]) {
     int who = 0;
+
+    printField();
 
     do {
         if(!who) {
