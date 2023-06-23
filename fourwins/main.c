@@ -52,25 +52,25 @@ int getMax(const int pos) {
 int hasWonShort() {
     for(int i = 0; i < 7; i++) {
         for(int j = 0; j < 6; j++) {
-            if(i < 5 && field[i][j] == 2 && 
+            if(i < 5 && field[i][j] != 0 && 
                     field[i][j] == field[i + 1][j] && 
                     field[i][j] == field[i + 2][j])
-                return 1;
+                return (field[i][j] == 2 ? 1 : -1);
 
-            if(j < 4 && field[i][j] == 2 && 
+            if(j < 4 && field[i][j] != 0 && 
                     field[i][j] == field[i][j + 1] && 
                     field[i][j] == field[i][j + 2])
-                return 1;
+                return (field[i][j] == 2 ? 1 : -1);
             
-            if(i < 5 && j < 4 && field[i][j] == 2 && 
+            if(i < 5 && j < 4 && field[i][j] != 0 && 
                     field[i][j] == field[i + 1][j + 1] && 
                     field[i][j] == field[i + 2][j + 2])
-                return 1;
+                return (field[i][j] == 2 ? 1 : -1);
 
-            if(i < 5 && j > 1 && field[i][j] == 2 && 
+            if(i < 5 && j > 1 && field[i][j] != 0 && 
                     field[i][j] == field[i + 1][j - 1] && 
                     field[i][j] == field[i + 2][j - 2])
-                return 1;
+                return (field[i][j] == 2 ? 1 : -1);
         }
     }
     
@@ -122,15 +122,16 @@ int walkTree(const int moves) {
         case -1:
             return 0;
         case 1:
-            return -1;
+            return -2;
         case 2:
-            return 1;
+            return 2;
     }
 
-    if(moves == 8)
+    if(moves == 7 + (int) (numberOfMoves / 6))
         return hasWonShort();
 
-    int value = (moves % 2 == 0 ? -1 : 1);
+    int value = (moves % 2 == 0 ? -3 : 3);
+    int has = 0;
 
     int prevArr[7][6];
     memcpy(prevArr, field, sizeof(field));
@@ -142,27 +143,27 @@ int walkTree(const int moves) {
             continue;
 
         if(field[i][max] == 0) {
+            has = 1;
+
             field[i][max] = (moves % 2 == 0 ? 2 : 1);
             const int nValue = walkTree(moves + 1);
 
             if((moves % 2 == 0 && nValue > value) || (moves % 2 != 0 && nValue < value)) {
                 value = nValue;
-                if(nValue != 0) {
+                if(nValue == 2)
                     memcpy(field, prevArr, sizeof(field));
-                    break;
-                }
             }
 
             memcpy(field, prevArr, sizeof(field));
         }
     }
 
-    return value;
+    return has ? value : 0;
 }
 
 int* genMove() {
     int* returning = malloc(sizeof(int) * 2);
-    int value = -1;
+    int value = -3;
 
     int prevArr[7][6];
     memcpy(prevArr, field, sizeof(field));
@@ -182,7 +183,7 @@ int* genMove() {
                 returning[0] = i;
                 returning[1] = max;
 
-                if(nValue != 0) {
+                if(nValue == 2) {
                     memcpy(field, prevArr, sizeof(field));
                     break;
                 }
