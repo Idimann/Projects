@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     FILE* file = fopen(argv[1], "r");
 
     if(file == NULL) {
-        printf("File doesnt exists!\n");
+        printf("File doesnt exist!\n");
         free(file);
         return 1;
     }
@@ -73,9 +73,8 @@ int main(int argc, char* argv[]) {
     size_t len = 0;
     ssize_t read;
 
-    while((read = getline(&line, &len, file)) != -1) {
+    while((read = getline(&line, &len, file)) != -1)
         doInterpret(line);
-    }
 
     printf("\n");
 
