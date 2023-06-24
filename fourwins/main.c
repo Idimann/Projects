@@ -127,7 +127,7 @@ int walkTree(const int moves) {
             return 2;
     }
 
-    if(moves == 7 + (int) (numberOfMoves / 6))
+    if(moves == 9)
         return hasWonShort();
 
     int value = (moves % 2 == 0 ? -3 : 3);
@@ -136,7 +136,7 @@ int walkTree(const int moves) {
     int prevArr[7][6];
     memcpy(prevArr, field, sizeof(field));
 
-    for(int i = 0; i < 7; i++) {
+    for(int i = 0; i < 7 && value != (moves % 2 == 0 ? 2 : -2); i++) {
         int max = getMax(i);
 
         if(max == -1)
@@ -148,11 +148,8 @@ int walkTree(const int moves) {
             field[i][max] = (moves % 2 == 0 ? 2 : 1);
             const int nValue = walkTree(moves + 1);
 
-            if((moves % 2 == 0 && nValue > value) || (moves % 2 != 0 && nValue < value)) {
+            if((moves % 2 == 0 && nValue > value) || (moves % 2 != 0 && nValue < value))
                 value = nValue;
-                if(nValue == 2)
-                    memcpy(field, prevArr, sizeof(field));
-            }
 
             memcpy(field, prevArr, sizeof(field));
         }

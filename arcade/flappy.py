@@ -144,7 +144,7 @@ while running:
             pygame.draw.rect(screen, (0, 240, 0), pygame.Rect(pipe[0], pipe[1] + 300, 150, 800))
 
             if position < 0 or position > 800 or (pipe[0] < 250 and pipe[0] > 100 and not troll == (position < pipe[1] or position > pipe[1] + 300)):
-                pipes = [[1600, 350], [2000, 400], [2400, 200], [2800, 530], [3200, 101]]
+                pipes = [[1600, 350, False], [2000, 400, False], [2400, 200, False], [2800, 530, False], [3200, 101, False]]
                 position = 400
                 velocity = 0
                 speed = 0.5

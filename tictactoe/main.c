@@ -133,6 +133,8 @@ int* userInput() {
 }
 
 int main(int argc, char* argv[]) {
+    printf("TicTacToe by Joe and Joe\n");
+
     int who = 0;
 
     do {

@@ -70,10 +70,12 @@ int main(int argc, char* argv[]) {
     FILE * f = fopen (argv[1], "rb");
 
     if (f) {
-        fseek (f, 0, SEEK_END);
-        length = ftell (f);
-        fseek (f, 0, SEEK_SET);
-        buffer = malloc (length);
+        fseek(f, 0, SEEK_END);
+        length = ftell(f);
+        fseek(f, 0, SEEK_SET);
+
+        buffer = malloc(length);
+
         if (buffer)
             fread (buffer, 1, length, f);
 
