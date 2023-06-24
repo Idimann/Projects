@@ -42,14 +42,9 @@ void doInterpret(char* buffer) {
                 break;
             case '+':
                 ++array[position];
-
-                array[position] = array[position] % 256;
                 break;
             case '-':
                 --array[position];
-
-                if(array[position] < 0)
-                    array[position] = 255;
                 break;
         }
     }
@@ -69,12 +64,24 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    char* line = NULL;
-    size_t len = 0;
-    ssize_t read;
+    char * buffer = 0;
+    long length;
 
-    while((read = getline(&line, &len, file)) != -1)
-        doInterpret(line);
+    FILE * f = fopen (argv[1], "rb");
+
+    if (f) {
+        fseek (f, 0, SEEK_END);
+        length = ftell (f);
+        fseek (f, 0, SEEK_SET);
+        buffer = malloc (length);
+        if (buffer)
+            fread (buffer, 1, length, f);
+
+        fclose (f);
+    }
+
+    if (buffer)
+        doInterpret(buffer);
 
     printf("\n");
 
