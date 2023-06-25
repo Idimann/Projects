@@ -19,3 +19,6 @@ Joud=43
 
 Gustav=51
 Gustav=71
+Skynet=165
+Baba=110
+Baba=2
