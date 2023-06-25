@@ -127,7 +127,7 @@ int walkTree(const int moves) {
             return 2;
     }
 
-    if(moves == 9)
+    if(moves == 8)
         return hasWonShort();
 
     int value = (moves % 2 == 0 ? -3 : 3);
