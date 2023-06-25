@@ -40,6 +40,8 @@ printing = True
 
 troll = False
 
+scrollProgress = 0
+
 pipes = [[1600, 350, False], [2000, 400, False], [2400, 200, False], [2800, 530, False], [3200, 101, False]]
 
 
@@ -47,7 +49,7 @@ def scoreboardPrinting():
     global screen
     global font
 
-    players = [["", 0] for i in range(10)]
+    players = [["", 0] for i in range(50)]
 
     with open("Scoreboard.txt") as file:
         for line in file:
@@ -57,25 +59,26 @@ def scoreboardPrinting():
             name = line.rstrip().split('=')[0]
             score = int(line.rstrip().split('=')[1])
 
-            for i in range(10):
+            for i in range(50):
                 if score > players[i][1]:
 
-                    for j in reversed(range(i, 10)):
-                        if j != 9:
+                    for j in reversed(range(i, 50)):
+                        if j != 49:
                             players[j + 1] = players[j]
 
                     players[i] = [name, score]
                     break
 
-    for i in range(10):
-        if i == 9:
+    for i in range(scrollProgress, scrollProgress + 10):
+        surface = font.render(str(i + 1) + ".    " + players[i][0], True, (255, 255, 255))
+
+        if i > 8:
             surface = font.render(str(i + 1) + ".   " + players[i][0], True, (255, 255, 255))
-        else:
-            surface = font.render(str(i + 1) + ".    " + players[i][0], True, (255, 255, 255))
-        screen.blit(surface, (50, 25 + i * 75))
+
+        screen.blit(surface, (50, 25 + (i - scrollProgress) * 75))
 
         surface = font.render("|    " + str(players[i][1]), True, (255, 255, 255))
-        screen.blit(surface, (1000, 25 + i * 75))
+        screen.blit(surface, (1000, 25 + (i - scrollProgress) * 75))
 
 
 def scoreboardShit():
@@ -122,8 +125,13 @@ while running:
         elif not printing and (mode == 'P' or mode == 'p') and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 velocity = -20
-        elif printing and event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-            printing = False
+        elif printing and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                printing = False
+            elif event.key == pygame.K_DOWN:
+                scrollProgress += 1
+            elif event.key == pygame.K_UP and scrollProgress > 0:
+                scrollProgress -= 1
 
     if not printing and (mode == 'A' or mode == 'a') and ai():
         velocity = -20
