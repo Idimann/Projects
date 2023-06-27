@@ -304,10 +304,10 @@ void printEnum(const int nNumber, const int number, Field thing, const int value
             }
             break;
         case THREE_PASH:
-            printf("Dreier Pash\t(%i)\n", value);
+            printf("Dreier Pasch\t(%i)\n", value);
             break;
         case FOUR_PASH:
-            printf("Vierer Pash\t(%i)\n", value);
+            printf("Vierer Pasch\t(%i)\n", value);
             break;
         case FULL_HOUSE:
             printf("Full House\t(%i)\n", value);
@@ -354,10 +354,10 @@ void printEnumSimple(const int number, Field thing) {
             }
             break;
         case THREE_PASH:
-            printf("Dreier Pash\n");
+            printf("Dreier Pasch\n");
             break;
         case FOUR_PASH:
-            printf("Vierer Pash\n");
+            printf("Vierer Pasch\n");
             break;
         case FULL_HOUSE:
             printf("Full House\n");
