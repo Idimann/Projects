@@ -8,7 +8,7 @@ WORKING-STORAGE SECTION.
            01 summe PICTURE IS 99999999.
 LINKAGE SECTION.
 PROCEDURE DIVISION.
-        ACCEPT erste.
+        accept erste.
         ACCEPT zweite.
         COMPUTE summe = erste + zweite
         DISPLAY summe.

@@ -46,6 +46,8 @@ void doInterpret(char* buffer) {
             case '-':
                 --array[position];
                 break;
+            default:
+                break;
         }
     }
 }
@@ -67,7 +69,7 @@ int main(int argc, char* argv[]) {
     char * buffer = 0;
     long length;
 
-    FILE * f = fopen (argv[1], "rb");
+    FILE* f = fopen(argv[1], "rb");
 
     if (f) {
         fseek(f, 0, SEEK_END);

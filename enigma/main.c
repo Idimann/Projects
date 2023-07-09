@@ -131,7 +131,10 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    printf("%s\n", buffer);
+    if(mode == 'd')
+        printf("Die entschluesselte Nachricht ist: %s\n", buffer);
+    else
+        printf("Die verschluesselte Nachricht ist: %s\n", buffer);
     
     return 0;
 }
