@@ -1,6 +1,4 @@
 import pygame
-import sys, termios, tty, os
-import random
 
 pygame.init()
 pygame.font.init()
@@ -14,5 +12,3 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-

@@ -1,7 +1,6 @@
 import pygame
-import sys, termios, tty, os
+import os
 import random
-import time
 
 print("[A]i or [P]layer?")
 mode = input()

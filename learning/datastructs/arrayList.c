@@ -54,9 +54,8 @@ void print(int* array) {
         return;
     }
 
-    for(int i = 0; i < arrSize; i++) {
+    for(int i = 0; i < arrSize; i++)
         printf("%i ", array[i]);
-    }
 
     printf("\n");
 }

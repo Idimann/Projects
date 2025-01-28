@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    char * buffer = 0;
+    char* buffer = 0;
     long length;
 
     FILE* f = fopen(argv[1], "rb");

@@ -137,7 +137,7 @@ int walkTree(const int moves) {
     memcpy(prevArr, field, sizeof(field));
 
     for(int i = 0; i < 7 && value != (moves % 2 == 0 ? 2 : -2); i++) {
-        int max = getMax(i);
+        const int max = getMax(i);
 
         if(max == -1)
             continue;
@@ -153,13 +153,15 @@ int walkTree(const int moves) {
 
             memcpy(field, prevArr, sizeof(field));
         }
+        else
+            printf("Huh\n");
     }
 
     return has ? value : 0;
 }
 
 int* genMove() {
-    int* returning = malloc(sizeof(int) * 2);
+    int* returning = malloc(sizeof(int) * 3);
     int value = -3;
 
     int prevArr[7][6];
