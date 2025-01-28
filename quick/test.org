@@ -1,0 +1,21 @@
+#+TITLE: Juttas Taschenrechner
+
+* Funktionen
+** Taschenrechner
+  - Addition
+  - Multiplikation
+  - Subtraktion
+  - Division
+
+* Aufbau
+** Frage
+  "Welche Rechenart?"
+** Eingabe
+  +,
+  -,
+  *,
+  /
+** Zahlen
+  Zwei Zahlen nacheinander eingeben
+** Ergebnis
+  "Die Loesung ist: {Loesung}"

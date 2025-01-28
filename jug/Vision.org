@@ -1,0 +1,22 @@
+#+TITLE: Gusti und Jutta
+#+AUTHOR: Gusti und Jutta
+
+* Idee
+ Simple mathematische Schreibweise fuer jegliches Algebra Problem
+** Weiteres
+  - Alles ist eine Funktion
+  - Liest sich wie text
+  - Cool
+
+* Beispiel
+ Addieren zweier Zahlen und Ausgabe des Ergebnisses
+ #+begin_src jug
+  addieren x, y = x, y +
+  5, 3 addieren output
+ #+end_src
+
+** Klassische Schreibweise
+ #+begin_src mathe
+   addieren(x, y) = x + y
+   Ausgabe: addieren(5, 3)
+ #+end_src
