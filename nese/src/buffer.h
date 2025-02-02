@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdlib.h>
 
 struct buffer {
@@ -21,4 +23,4 @@ void buffer_attach_callback_to_file(struct buffer*, const char*);
 void buffer_attach_write_to_file(struct buffer*);
 void buffer_attach_load_to_file(struct buffer*);
 
-void buffer_load_simple_text(struct buffer*, const char*);
+void buffer_setup_text(struct buffer*, const char*);

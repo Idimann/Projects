@@ -28,7 +28,10 @@ static void read_from_file(struct buffer* input) {
 
     if(input->size) {
         input->text = malloc(sizeof(char) * input->size);
-        fgets(input->text, input->size, f);
+
+        size_t counter = 0;
+        while(fgets(&input->text[counter], input->size, f))
+            counter += strlen(&input->text[counter]);
     }
 
     fclose(f);
