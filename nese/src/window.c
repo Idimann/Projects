@@ -1,5 +1,6 @@
 #include "window.h"
 #include "data_buffer.h"
+#include "run.h"
 
 #include <ncurses.h>
 #include <string.h>
@@ -42,6 +43,18 @@ void window_draw_all() {
 
     for(size_t i = 0; i < WINDOWS_SIZE; i++)
         window_draw(&(WINDOWS[i]), i * WINDOWS_SIZE);
+}
+
+size_t focused_window = 0;
+
+enum ErrType window_process_input() {
+    if(focused_window >= WINDOWS_SIZE)
+        focused_window = 0;
+
+    if(WINDOWS_SIZE == 0)
+        return ERR_IMPOSSIBLE;
+
+    return window_input(&(WINDOWS[focused_window]));
 }
 
 static struct dimension SCREEN_SIZE = {.x = 0, .y = 0};
@@ -137,4 +150,12 @@ void window_draw(struct window* input, size_t index) {
         waddstr(input->window, input->data_buff->buffer.text);
 
     wrefresh(input->window);
+}
+
+enum ErrType window_input(struct window* window) {
+    const int input = wgetch(window->window);
+
+    buffer_setup_text(&window->data_buff->buffer, (const char*) &input);
+
+    return ERR_NONE;
 }

@@ -19,6 +19,7 @@ struct window* window_get(size_t);
 
 void window_shutdown();
 void window_draw_all();
+enum ErrType window_process_input();
 
 void window_update_screen_size();
 struct dimension window_screen_size();
@@ -32,4 +33,4 @@ enum ErrType window_full_setup_fullscreen(struct data_buffer*);
 
 void window_kill(struct window*);
 void window_draw(struct window*, size_t);
-
+enum ErrType window_input(struct window*);

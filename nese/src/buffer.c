@@ -22,6 +22,7 @@ static enum ErrType read_from_file(struct buffer* input) {
     if(!f)
         return ERR_FILE;
 
+
     if(input->size && input->text)
         buffer_clear_text(input);
 
@@ -32,9 +33,7 @@ static enum ErrType read_from_file(struct buffer* input) {
     if(input->size) {
         input->text = malloc(sizeof(char) * input->size);
 
-        size_t counter = 0;
-        while(fgets(&input->text[counter], input->size, f))
-            counter += strlen(&input->text[counter]);
+        fread(input->text, sizeof(char), input->size, f);
     }
 
     fclose(f);

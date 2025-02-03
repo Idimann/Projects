@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     window_update_screen_size();
 
     if(argc != 2) {
-        ERROR_CHECK(ERR_UNIMPLEMENTED);
+        ERROR_CHECK(ERR_UNIMPLEMENTED); //Braces are needed cause of macro
     }
     else {
         ERROR_CHECK(data_full_setup_file(argv[1]));
@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         ERROR_CHECK(window_full_setup_fullscreen(top_buff));
     }
 
-    ERROR_CHECK(runMainLoop());
+    ERROR_CHECK(run_main_loop());
 
 EXIT:
     window_shutdown();

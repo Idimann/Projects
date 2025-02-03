@@ -11,4 +11,5 @@ enum ErrType {
     ERR_FILE
 };
 
-enum ErrType runMainLoop();
+enum ErrType run_main_loop();
+void stop_main_loop();
