@@ -1,23 +1,26 @@
 #include "buffer.h"
+#include "run.h"
 
 #include <stdio.h>
 #include <string.h>
 
-static void write_to_file(struct buffer* input) {
+static enum ErrType write_to_file(struct buffer* input) {
     FILE* f = fopen(input->callback_addr, "w");
 
     if(!f)
-        return; //Should throw an error
+        return ERR_FILE;
 
     fwrite(input->text, input->size, sizeof(char), f);
     fclose(f);
+
+    return ERR_NONE;
 }
 
-static void read_from_file(struct buffer* input) {
+static enum ErrType read_from_file(struct buffer* input) {
     FILE* f = fopen(input->callback_addr, "r");
 
     if(!f)
-        return; //Should throw an error
+        return ERR_FILE;
 
     if(input->size && input->text)
         buffer_clear_text(input);
@@ -35,6 +38,7 @@ static void read_from_file(struct buffer* input) {
     }
 
     fclose(f);
+    return ERR_NONE;
 }
 
 struct buffer buffer_create_empty() {
@@ -47,43 +51,47 @@ struct buffer buffer_create_empty() {
     };
 }
 
-void buffer_clear_text(struct buffer* input) {
+enum ErrType buffer_clear_text(struct buffer* input) {
     if(!input->size || !input->text)
-        return; //Should throw an error
+        return ERR_IMPOSSIBLE;
 
     free(input->text);
     input->text = NULL;
     input->size = 0;
+    return ERR_NONE;
 }
 
-void buffer_clear_callback(struct buffer* input) {
+enum ErrType buffer_clear_callback(struct buffer* input) {
     if(!input->callback_addr)
-        return; //Should throw an error
+        return ERR_IMPOSSIBLE;
 
     free(input->callback_addr);
     input->callback_addr = NULL;
+    return ERR_NONE;
 }
 
-void buffer_write(struct buffer* input) {
+enum ErrType buffer_write(struct buffer* input) {
     if(!input->write_func)
-        return; //Should throw an error
+        return ERR_IMPOSSIBLE;
 
     input->write_func(input);
+    return ERR_NONE;
 }
 
-void buffer_load(struct buffer* input) {
+enum ErrType buffer_load(struct buffer* input) {
     if(!input->load_func)
-        return; //Should throw an error
+        return ERR_IMPOSSIBLE;
 
     input->load_func(input);
+    return ERR_NONE;
 }
 
-void buffer_setup_file(struct buffer* input, const char* file) {
+enum ErrType buffer_setup_file(struct buffer* input, const char* file) {
     buffer_attach_callback_to_file(input, file);
     buffer_attach_write_to_file(input);
     buffer_attach_load_to_file(input);
 
-    input->load_func(input);
+    return input->load_func(input);
 }
 
 void buffer_attach_callback_to_file(struct buffer* input, const char* file) {

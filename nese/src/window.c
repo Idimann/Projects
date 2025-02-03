@@ -1,4 +1,5 @@
 #include "window.h"
+#include "data_buffer.h"
 
 #include <ncurses.h>
 #include <string.h>
@@ -65,8 +66,23 @@ void window_load_curses(struct window* input, WINDOW* window) {
     wrefresh(input->window);
 }
 
-void window_load_data_buffer(struct window* input, struct data_buffer* buff) {
+void window_load_data_buffer(struct window* input, 
+        struct data_buffer* buff) {
     input->data_buff = buff;
+}
+
+enum ErrType window_full_setup_fullscreen(struct data_buffer* input) {
+    if(!input)
+        return ERR_PTR;
+
+    struct window window = window_create_empty();
+    window_load_data_buffer(&window, input);
+    const struct dimension screen_size = window_screen_size();
+    window_load_curses(&window, newwin(screen_size.y, screen_size.x, 0, 0));
+
+    window_add(window);
+
+    return ERR_NONE;
 }
 
 void window_kill(struct window* input) {
@@ -76,6 +92,8 @@ void window_kill(struct window* input) {
 void window_draw(struct window* input, size_t index) {
     wclear(input->window);
     wattrset(input->window, A_NORMAL);
+
+    data_callback_behaviours(input->data_buff);
 
     if(input->data_buff->remark_size) {
         size_t pos = 0;
