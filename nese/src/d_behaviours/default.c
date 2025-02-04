@@ -2,13 +2,13 @@
 
 #include <string.h>
 
-static void toggle_type(struct window* window) {
-    const struct behaviour bh = default_behaviour_get(2)->behaviour;
+static void toggle_movement(struct window* window) {
+    const struct behaviour bh = default_behaviour_get(1)->behaviour;
     const size_t len = strlen(bh.name);
 
     int rToggle = 0;
     size_t removing = 0;
-    for(size_t i = 0; i < window->data_buff->behaviour_size; i++) {
+    for(size_t i = 0; i < (window->data_buff->behaviour_size); i++) {
         if(strlen(window->data_buff->behaviour_stack[i].name) != len)
             continue;
 
@@ -55,20 +55,9 @@ static void toggle_type(struct window* window) {
     }
 }
 
-static void toggle_movement(struct window* window) {
-    
-}
-
-void default_behaviours_behaviour_toggles() {
+void default_behaviours_default() {
     struct behaviour behaviour = behaviour_create_empty("Default");
 
-    behaviour_add_bind(&behaviour, (struct key_bind) {
-        .call_back = toggle_type,
-        .type = STOPPING_ALL,
-        .bind_size = 1,
-        .bind = { CTRL('t'), 0, 0, 0, 0, 0, 0, 0 }
-    });
-    
     behaviour_add_bind(&behaviour, (struct key_bind) {
         .call_back = toggle_movement,
         .type = STOPPING_ALL,

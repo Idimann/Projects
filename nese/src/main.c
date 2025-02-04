@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
         start_color();
         assume_default_colors(-1, -1);
     }
-
+    
     enum ErrType ERROR = ERR_NONE;
 
     window_update_screen_size();
