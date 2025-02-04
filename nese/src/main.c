@@ -1,9 +1,15 @@
 #include <ncurses.h>
+#include <signal.h>
 
+#include "behaviour.h"
+#include "data_buffer.h"
 #include "window.h"
 #include "run.h"
+#include "default_behaviours.h"
 
 int main(int argc, char** argv) {
+    signal(SIGINT, SIG_IGN);
+
     initscr();
     noecho();
     cbreak();
@@ -15,6 +21,7 @@ int main(int argc, char** argv) {
     enum ErrType ERROR = ERR_NONE;
 
     window_update_screen_size();
+    default_behaviours_init();
 
     if(argc != 2) {
         ERROR_CHECK(ERR_UNIMPLEMENTED); //Braces are needed cause of macro

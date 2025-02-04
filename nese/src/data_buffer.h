@@ -24,7 +24,7 @@ struct data_buffer {
     struct remark* remark_stack;
     size_t remark_size;
 
-    struct behaviour** behaviour_stack;
+    struct behaviour* behaviour_stack;
     size_t behaviour_size;
 };
 
@@ -48,7 +48,7 @@ void data_callback_behaviours(struct data_buffer*);
 
 struct data_buffer data_create_empty();
 
-void data_add_behaviour(struct data_buffer*, struct behaviour*);
+void data_add_behaviour(struct data_buffer*, struct behaviour);
 
 enum ErrType data_full_setup_file(const char*);
 enum ErrType data_setup_file(struct data_buffer*, const char*);

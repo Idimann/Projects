@@ -1,4 +1,5 @@
 #include "window.h"
+#include "behaviour.h"
 #include "data_buffer.h"
 #include "run.h"
 
@@ -106,6 +107,12 @@ void window_draw(struct window* input, size_t index) {
     wclear(input->window);
     wattrset(input->window, A_NORMAL);
 
+    if(input->data_buff->remark_stack)
+        free(input->data_buff->remark_stack);
+
+    input->data_buff->remark_size = 0;
+    input->data_buff->remark_stack = NULL;
+
     data_callback_behaviours(input->data_buff);
 
     if(input->data_buff->remark_size) {
@@ -152,10 +159,65 @@ void window_draw(struct window* input, size_t index) {
     wrefresh(input->window);
 }
 
-enum ErrType window_input(struct window* window) {
-    const int input = wgetch(window->window);
+static int KEYS[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+static unsigned char KEYS_SIZE = 0;
 
-    buffer_setup_text(&window->data_buff->buffer, (const char*) &input);
+enum ErrType window_input(struct window* input) {
+    if(KEYS_SIZE > 7)
+        return ERR_INDEX;
+
+    KEYS[KEYS_SIZE++] = wgetch(input->window);
+
+    if(!input->data_buff->behaviour_size)
+        return ERR_IMPOSSIBLE;
+
+    int found = 0;
+    for(size_t i = input->data_buff->behaviour_size - 1; i >= 0; i--) {
+        for(size_t j = 0; 
+            j < (input->data_buff->behaviour_stack[i].bind_size); j++) {
+            for(unsigned char k = 0; k < KEYS_SIZE; k++) {
+                if(input->data_buff->behaviour_stack[i].binds[j].bind[k]
+                        != KEYS[k])
+                    goto EXIT_LOOP;
+            }
+
+            if(input->data_buff->behaviour_stack[i].binds[j].bind_size
+                    != KEYS_SIZE) {
+                found = 3;
+                continue;
+            }
+
+            //If we're here, the jth bind is the one we're looking for
+            input->data_buff->behaviour_stack[i].binds[j].call_back(input);
+
+            if(input->data_buff->behaviour_stack[i].binds[j].type
+                    == STOPPING_ALL) {
+                found = 2;
+                break;
+            }
+            else if(input->data_buff->behaviour_stack[i].binds[j].type
+                    == STOPPING_BEHAVIOUR) {
+                found = 2;
+                continue;
+            }
+            else {
+                found = 1;
+                continue;
+            }
+
+EXIT_LOOP:
+            continue;
+        }
+
+        if(found == 2)
+            break;
+
+        if(i == 0)
+            break;
+    }
+
+    if(found != 3 || KEYS_SIZE == 7)
+        KEYS_SIZE = 0;
 
     return ERR_NONE;
 }

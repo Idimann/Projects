@@ -83,13 +83,15 @@ void data_default_behaviours(struct data_buffer* input) {
                     &input->buffer.callback_addr[bLen - dLen], dLen) != 0)
             continue;
 
-        data_add_behaviour(input, &DBEHAVIOURS[i].behaviour);
+        data_add_behaviour(input, DBEHAVIOURS[i].behaviour);
     }
 }
 
 void data_callback_behaviours(struct data_buffer* input) {
-    for(size_t i = 0; i < (input->behaviour_size); i++)
-        input->behaviour_stack[i]->call_back(input);
+    for(size_t i = 0; i < (input->behaviour_size); i++) {
+        if(input->behaviour_stack[i].call_back)
+            input->behaviour_stack[i].call_back(input);
+    }
 }
 
 struct data_buffer data_create_empty() {
@@ -102,14 +104,14 @@ struct data_buffer data_create_empty() {
     };
 }
 
-void data_add_behaviour(struct data_buffer* input, struct behaviour* bh) {
+void data_add_behaviour(struct data_buffer* input, struct behaviour bh) {
     ++input->behaviour_size;
 
-    struct behaviour** old = input->behaviour_stack;
-    input->behaviour_stack = malloc(sizeof(struct behaviour*) * 
+    struct behaviour* old = input->behaviour_stack;
+    input->behaviour_stack = malloc(sizeof(struct behaviour) * 
             input->behaviour_size);
     memcpy(input->behaviour_stack, old, 
-            sizeof(struct behaviour*) * (input->behaviour_size - 1));
+            sizeof(struct behaviour) * (input->behaviour_size - 1));
 
     if(old)
         free((void*) old);
