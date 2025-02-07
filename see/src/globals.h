@@ -5,21 +5,25 @@
 
 struct cursor_pos {
     size_t x, y;
+    size_t x_scroll, y_scroll;
+    size_t actual_x, actual_x_scroll;
+};
+
+struct buffer {
+    char* data;
+    size_t size;
 };
 
 struct global_data {
     unsigned char running;
 
-    struct cursor_pos cursor_pos;
+    struct cursor_pos cursor;
 
-    char* buffer;
-    size_t buffer_size;
+    struct buffer* lines;
+    size_t lines_size;
 
-    char* file;
-    size_t file_size;
-
-    char* command;
-    size_t command_size;
+    struct buffer file;
+    struct buffer command;
 };
 
 void global_data_refresh();

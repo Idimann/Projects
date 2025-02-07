@@ -1,6 +1,7 @@
 #include <signal.h>
 #include <ncurses.h>
 
+#include "settings.h"
 #include "globals.h"
 #include "run.h"
 
@@ -19,6 +20,8 @@ int main(int argc, char** argv) {
         start_color();
         assume_default_colors(-1, -1);
     }
+
+    settings_refresh();
 
     global_data_refresh();
     global_data_load_file(argv[1]);

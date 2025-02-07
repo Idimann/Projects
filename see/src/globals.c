@@ -12,19 +12,27 @@ void global_data_refresh() {
     *GLOBAL = (struct global_data) {
         .running = 1,
 
-        .cursor_pos = (struct cursor_pos) {
+        .cursor = {
             .x = 0,
-            .y = 0
+            .y = 0,
+            .x_scroll = 0,
+            .y_scroll = 0,
+            .actual_x = 0,
+            .actual_x_scroll = 0
         },
 
-        .buffer = NULL,
-        .buffer_size = 0,
+        .lines = NULL,
+        .lines_size = 0,
 
-        .file = NULL,
-        .file_size = 0,
+        .file = {
+            .data = NULL,
+            .size = 0
+        },
 
-        .command = NULL,
-        .command_size = 0
+        .command = {
+            .data = NULL,
+            .size = 0
+        }
     };
 }
 
@@ -36,42 +44,77 @@ void global_data_cleanup() {
     if(!GLOBAL)
         return;
 
-    free(GLOBAL->buffer);
-    free(GLOBAL->file);
-    free(GLOBAL->command);
+    for(size_t i = 0; i < (GLOBAL->lines_size); i++)
+        free(GLOBAL->lines[i].data);
+
+    free(GLOBAL->lines);
+    free(GLOBAL->file.data);
+    free(GLOBAL->command.data);
 
     free(GLOBAL);
     GLOBAL = 0;
 }
 
 void global_data_load_file(const char* file) {
-    GLOBAL->file_size = strlen(file) + 1;
-    GLOBAL->file = malloc(GLOBAL->file_size);
-    strcpy(GLOBAL->file, file);
+    GLOBAL->file.size = strlen(file) + 1;
+    GLOBAL->file.data = malloc(GLOBAL->file.size);
+    strcpy(GLOBAL->file.data, file);
 }
 
+#define BUF_SIZE 65536
+
+static size_t count_lines(FILE* file) { //Copied from StackOverflow
+    char buf[BUF_SIZE];
+    int counter = 0;
+    for(;;)
+    {
+        size_t res = fread(buf, 1, BUF_SIZE, file);
+        if (ferror(file))
+            return -1;
+
+        int i;
+        for(i = 0; i < res; i++)
+            if (buf[i] == '\n')
+                counter++;
+
+        if (feof(file))
+            break;
+    }
+
+    return counter;
+}
+
+#define LINE_BUFF_SIZE 2048
+
 void global_data_load() {
-    FILE* f = fopen(GLOBAL->file, "r");
+    FILE* f = fopen(GLOBAL->file.data, "r");
 
     if(!f)
         return;
 
-    fseek(f, 0L, SEEK_END);
-    GLOBAL->buffer_size = ftell(f);
+    GLOBAL->lines_size = count_lines(f);
+    GLOBAL->lines = malloc(sizeof(struct buffer) * GLOBAL->lines_size);
     rewind(f);
 
-    if(GLOBAL->buffer_size) {
-        GLOBAL->buffer = malloc(sizeof(char) * GLOBAL->buffer_size);
+    char buff[LINE_BUFF_SIZE];
+    for(size_t i = 0; i < (GLOBAL->lines_size); i++) {
+        if(!fgets(buff, LINE_BUFF_SIZE, f))
+            break;
 
-        fread(GLOBAL->buffer, sizeof(char), GLOBAL->buffer_size, f);
+        GLOBAL->lines[i].size = strlen(buff) + 1;
+        GLOBAL->lines[i].data = malloc(sizeof(char) * GLOBAL->lines[i].size);
+        memcpy(GLOBAL->lines[i].data, buff, GLOBAL->lines[i].size);
     }
 
-    fclose(f);
+    if(f)
+        fclose(f);
 }
 
 void global_data_write() {
-    FILE* f = fopen(GLOBAL->file, "w+");
+    FILE* f = fopen(GLOBAL->file.data, "w+");
 
-    fwrite(GLOBAL->buffer, GLOBAL->buffer_size, sizeof(char), f);
+    for(size_t i = 0; i < (GLOBAL->lines_size); i++)
+        fputs(GLOBAL->lines[i].data, f);
+
     fclose(f);
 }
