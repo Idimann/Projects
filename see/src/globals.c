@@ -11,6 +11,7 @@ void global_data_refresh() {
 
     *GLOBAL = (struct global_data) {
         .running = 1,
+        .current_mode = 0,
 
         .cursor = {
             .x = 0,

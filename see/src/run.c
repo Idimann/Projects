@@ -4,6 +4,7 @@
 
 #include "globals.h"
 #include "input.h"
+#include "settings.h"
 
 static void render() {
     struct global_data* data = global_data_get();

@@ -16,6 +16,7 @@ struct buffer {
 
 struct global_data {
     unsigned char running;
+    unsigned char current_mode;
 
     struct cursor_pos cursor;
 

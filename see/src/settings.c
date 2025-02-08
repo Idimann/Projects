@@ -8,6 +8,8 @@ void settings_refresh() {
     *SETTINGS = (struct settings) {
         .x_scroll_pad = 2,
         .y_scroll_pad = 4,
+        .default_mode = '\t',
+        .background_mode = '\0',
     };
 }
 
