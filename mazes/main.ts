@@ -25,6 +25,8 @@ function path(start: number, end: number, size: number[]): maze {
 
     let iterating: number[] = [0, start];
     while(iterating[0] != size[0] - 1 || iterating[1] != end) {
+        console.log(iterating);
+
         allPossib
             .filter((x) => {
                 const pos = [iterating[0] + x[0], iterating[1] + x[1]];
@@ -45,11 +47,15 @@ function path(start: number, end: number, size: number[]): maze {
                     if(allPossib[i] == pos)
                         continue;
 
-                    if(returning.arr[pos[0] + allPossib[i][0]][pos[1] +
-                       allPossib[i][1]])
+                    const tempPos = [pos[0] + allPossib[i][0], pos[1] + allPossib[i][1]];
+
+                    if(tempPos[0] < 0 || tempPos[1] < 0 ||
+                       pos[0] == size[0] - 1 || pos[1] == size[1] - 1)
+                        return false;
+
+                    if(returning.arr[pos[0]][pos[1]])
                         return false;
                 }
-
 
                 return true;
             })
