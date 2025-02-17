@@ -102,3 +102,4 @@ document.addEventListener('keydown', (e) => {
         display(old);
     display(settingIndex);
 });
+

@@ -107,13 +107,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN and (mode == "P" or mode == "p"):
-            if (event.key == pygame.K_DOWN or event.key == pygame.K_s) and moveDirection != 0:
+            if (event.key == pygame.K_DOWN or event.key == pygame.K_s 
+                or event.key == pygame.K_j) and moveDirection != 0:
                 moveDirection = 2
-            elif (event.key == pygame.K_UP or event.key == pygame.K_w) and moveDirection != 2:
+            elif (event.key == pygame.K_UP or event.key == pygame.K_w
+                  or event.key == pygame.K_k) and moveDirection != 2:
                 moveDirection = 0
-            elif (event.key == pygame.K_RIGHT or event.key == pygame.K_d) and moveDirection != 3:
+            elif (event.key == pygame.K_RIGHT or event.key == pygame.K_d
+                  or event.key == pygame.K_l) and moveDirection != 3:
                 moveDirection = 1
-            elif (event.key == pygame.K_LEFT or event.key == pygame.K_a) and moveDirection != 1:
+            elif (event.key == pygame.K_LEFT or event.key == pygame.K_a
+                  or event.key == pygame.K_h) and moveDirection != 1:
                 moveDirection = 3
 
 

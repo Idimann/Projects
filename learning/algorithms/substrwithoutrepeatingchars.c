@@ -23,12 +23,12 @@ Solution_t solution(char* input) {
         }
 
         memset(array, 0, sizeof(array));
-        
+
         if(counter > returning.length) {
             returning.length = counter;
             returning.string = updating;
         }
-        
+
         updating = malloc(sizeof(char) * 1);
         counter = 0;
     }

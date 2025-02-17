@@ -3,10 +3,10 @@ function add(first, second) {
 }
 
 // import readline module
-const readline = require("readline");
+import { createInterface } from "readline";
 
 // create interface for input and output
-const rl = readline.createInterface({
+const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
 });
@@ -16,11 +16,11 @@ let first = "";
 let second = "";
 
 // question user to enter name
-rl.question("First number\n", function (string) {
+rl.question("First number\n", (string) => {
     first = string;
 });
 
-rl.question("Second number\n", function (string) {
+rl.question("Second number\n", (string) => {
     second = string;
 });
 

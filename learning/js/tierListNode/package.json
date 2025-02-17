@@ -1,0 +1,12 @@
+{
+  "name": "tierlist",
+  "version": "1.0.0",
+  "description": "Tier list, now in node",
+  "license": "ISC",
+  "author": "lol",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

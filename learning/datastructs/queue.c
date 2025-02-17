@@ -18,7 +18,7 @@ void removeC(Node_t* head, const int element) {
     while(pointer != NULL && pointer->next != NULL && counter != element) {
         pointer = pointer->next;
         ++counter;
-    
+
     }
     Node_t* prevPtr = pointer->next;
     pointer->next = pointer->next->next;
@@ -30,7 +30,7 @@ void insert(Node_t* head, const int element) {
     Node_t* pointer = head;
 
     int counter = 0;
-    
+
     Node_t* prevPointer = pointer->next;
     pointer->next = (Node_t*) malloc(sizeof(Node_t));
 
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
 
     int input;
     int input2;
-    
+
     for(;;) {
         printf("\nWhat do you want to do?\n[1] Push\n[2] Print\n[3] Quit\n\n");
 

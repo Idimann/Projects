@@ -1,0 +1,20 @@
+{
+    "Tiers": {
+        0: ["S", "fireBrick"],
+        1: ["A", "orangeRed"],
+        2: ["B", "orange"],
+        3: ["C", "yellow"],
+        4: ["D", "seaGreen"],
+        5: ["F", "green"]
+    },
+
+    "Inputs": [
+        "Vim",
+        "NVim",
+        "Emacs",
+        "VSCode",
+        "Nano",
+        "IntelliJ",
+        "see"
+    ],
+}
