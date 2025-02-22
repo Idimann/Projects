@@ -31,7 +31,7 @@ Disassembly of section .text:
     103f:	ff 15 7b 2f 00 00    	call   *0x2f7b(%rip)        # 3fc0 <__libc_start_main@GLIBC_2.34>
     1045:	f4                   	hlt
     1046:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-    104d:	00 00 00 
+    104d:	00 00 00
     1050:	48 8d 3d b9 2f 00 00 	lea    0x2fb9(%rip),%rdi        # 4010 <__TMC_END__>
     1057:	48 8d 05 b2 2f 00 00 	lea    0x2fb2(%rip),%rax        # 4010 <__TMC_END__>
     105e:	48 39 f8             	cmp    %rdi,%rax
@@ -64,7 +64,7 @@ Disassembly of section .text:
     10cb:	75 33                	jne    1100 <_start+0xe0>
     10cd:	55                   	push   %rbp
     10ce:	48 83 3d 0a 2f 00 00 	cmpq   $0x0,0x2f0a(%rip)        # 3fe0 <__cxa_finalize@GLIBC_2.2.5>
-    10d5:	00 
+    10d5:	00
     10d6:	48 89 e5             	mov    %rsp,%rbp
     10d9:	74 0d                	je     10e8 <_start+0xc8>
     10db:	48 8b 3d 26 2f 00 00 	mov    0x2f26(%rip),%rdi        # 4008 <__dso_handle>
@@ -74,10 +74,10 @@ Disassembly of section .text:
     10f4:	5d                   	pop    %rbp
     10f5:	c3                   	ret
     10f6:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
-    10fd:	00 00 00 
+    10fd:	00 00 00
     1100:	c3                   	ret
     1101:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
-    1108:	00 00 00 00 
+    1108:	00 00 00 00
     110c:	0f 1f 40 00          	nopl   0x0(%rax)
     1110:	f3 0f 1e fa          	endbr64
     1114:	e9 67 ff ff ff       	jmp    1080 <_start+0x60>
@@ -86,11 +86,11 @@ Disassembly of section .text:
     1119:	55                   	push   %rbp
     111a:	48 89 e5             	mov    %rsp,%rbp
     111d:	48 c7 45 e0 00 01 00 	movq   $0x100,-0x20(%rbp)
-    1124:	00 
+    1124:	00
     1125:	48 c7 45 e8 00 00 00 	movq   $0x0,-0x18(%rbp)
-    112c:	00 
+    112c:	00
     112d:	48 c7 45 f0 05 00 00 	movq   $0x5,-0x10(%rbp)
-    1134:	00 
+    1134:	00
     1135:	b8 08 00 00 00       	mov    $0x8,%eax
     113a:	5d                   	pop    %rbp
     113b:	c3                   	ret

@@ -604,7 +604,7 @@ int canDo(const int index, int throwing[], const int mode) {
         case SMALL_STREET:
             for(int i = 0; i < 5; i++)
                 ++pashes[throwing[i] - 1];
-            
+
             for(int i = 0; i < 6; i++) {
                 if(!((pashes[i] == 2 && !smallStreet) || pashes[i] <= 1)) {
                     quit = 1;
@@ -627,7 +627,7 @@ int canDo(const int index, int throwing[], const int mode) {
         case BIG_STREET:
             for(int i = 0; i < 5; i++)
                 ++pashes[throwing[i] - 1];
-            
+
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] > 1) {
                     quit = 1;
@@ -793,29 +793,36 @@ int canDo(const int index, int throwing[], const int mode) {
     return returning;
 }
 
-void printEnum(const int nNumber, const int number, Field thing, const int value, const int calc) {
+void printEnum(const int nNumber, const int number, Field thing, const int value,
+        const int calc) {
     printf("%i.\t", nNumber);
 
     switch(thing.type) {
         case NUMBERS:
             switch(number) {
                 case 1:
-                    printf("Einser\t\t(%i | %i | %i)\n", value, value - 3, -calc + (value - 3));
+                    printf("Einser\t\t(%i | %i | %i)\n", value, value - 3,
+                            -calc + (value - 3));
                     break;
                 case 2:
-                    printf("Zweier\t\t(%i | %i | %i)\n", value, value - 6, -calc + (value - 6));
+                    printf("Zweier\t\t(%i | %i | %i)\n", value, value - 6,
+                            -calc + (value - 6));
                     break;
                 case 3:
-                    printf("Dreier\t\t(%i | %i | %i)\n", value, value - 9, -calc + (value - 9));
+                    printf("Dreier\t\t(%i | %i | %i)\n", value, value - 9,
+                            -calc + (value - 9));
                     break;
                 case 4:
-                    printf("Vierer\t\t(%i | %i | %i)\n", value, value - 12, -calc + (value - 12));
+                    printf("Vierer\t\t(%i | %i | %i)\n", value, value - 12,
+                            -calc + (value - 12));
                     break;
                 case 5:
-                    printf("Fuenfer\t\t(%i | %i | %i)\n", value, value - 15, -calc + (value - 15));
+                    printf("Fuenfer\t\t(%i | %i | %i)\n", value, value - 15,
+                            -calc + (value - 15));
                     break;
                 case 6:
-                    printf("Sechser\t\t(%i | %i | %i)\n", value, value - 18, -calc + (value - 18));
+                    printf("Sechser\t\t(%i | %i | %i)\n", value, value - 18,
+                            -calc + (value - 18));
                     break;
             }
             break;
@@ -954,7 +961,7 @@ int main(int argc, char* argv[]) {
     Field* players[argc - 1];
 
     int mode;
-    printf("Welche version des Spiels ist erwuenscht?\n\n"
+    printf("Welche Version des Spiels ist erwuenscht?\n\n"
             "0. Alle Dinge\n"
             "1. Classic\n"
             "2. Easy\n"
@@ -984,14 +991,14 @@ int main(int argc, char* argv[]) {
             for(int i = 0; i < 5; i++)
                 throwing[i] = 0;
             printf("%s du bist dran!\n", argv[j]);
-            
+
             const int missing = calcMissingToBonus(players[j - 1], mode);
-            
+
             if(missing < 0)
                 printf("Du hast extra %i fuer den Bonus\n", -missing);
             else if(missing > 0)
                 printf("Dir fehlen %i fuer den Bonus\n", missing);
-            
+
             printf("Deine Optionen:\n\n");
 
             for(int k = 0; k < TYPE_AMOUNT; k++) {
@@ -1005,14 +1012,16 @@ int main(int argc, char* argv[]) {
                     throwing[2] < 1 || throwing[2] > 6 ||
                     throwing[3] < 1 || throwing[3] > 6 ||
                     throwing[4] < 1 || throwing[4] > 6) {
-                scanf(" %i %i %i %i %i", &throwing[0], &throwing[1], &throwing[2], &throwing[3], &throwing[4]);
+                scanf(" %i %i %i %i %i", &throwing[0], &throwing[1], &throwing[2],
+                        &throwing[3], &throwing[4]);
             }
 
             printf("\n0.\tEtwas streichen\n");
             int iterating = 1;
             for(int k = 0; k < TYPE_AMOUNT; k++) {
                 if(players[j - 1][k].done == 0 && canDo(k, throwing, mode)) {
-                    printEnum(iterating, k + 1, players[j - 1][k], canDo(k, throwing, mode), calcMissingToBonus(players[j - 1], mode));
+                    printEnum(iterating, k + 1, players[j - 1][k], canDo(k, throwing, mode),
+                            calcMissingToBonus(players[j - 1], mode));
                     ++iterating;
                 }
             }
