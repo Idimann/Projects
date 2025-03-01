@@ -24,7 +24,8 @@ pygame.font.init()
 screen = pygame.display.set_mode([1500, 800])
 font = pygame.font.SysFont('Consolas', 50)
 
-gravity = 0.15
+jump = 27
+gravity = 0.18
 speed = 0.5
 
 score = 0
@@ -123,7 +124,7 @@ while running:
             running = False
         elif not printing and (mode == 'P' or mode == 'p') and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                velocity = -20
+                velocity = -jump
         elif printing and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 printing = False
@@ -133,7 +134,7 @@ while running:
                 scrollProgress -= 1
 
     if not printing and (mode == 'A' or mode == 'a') and ai():
-        velocity = -20
+        velocity = -jump
 
     screen.fill((10, 10, 10))
     if printing:
