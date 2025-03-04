@@ -3,5 +3,6 @@
 !*.*
 Mima/
 OleSpiel/
+node_modules/
 *.txt
 *.o
