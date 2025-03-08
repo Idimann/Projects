@@ -1,5 +1,5 @@
 function add(first, second) {
-    return (first + 0) + (second + 0);
+    return (+first) + (+second);
 }
 
 // import readline module
