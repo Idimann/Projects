@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTMX Gaming!</title>
+        <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    </head>
+
+    <body>
+        <form>
+            <input name="input" type="text">
+            <button hx-put="/clicked" hx-target="#contents">
+                Submit
+            </button>
+        </form>
+
+        <div id="contents">
+        </div>
+    </body>
+</html>

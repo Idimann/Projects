@@ -9,13 +9,11 @@
 
 static void default_mode(const char* _) {
     struct global_data* data = global_data_get();
-
     data->current_mode = settings_get()->default_mode;
 }
 
 static void switch_mode(const char* input) {
     struct global_data* data = global_data_get();
-
     data->current_mode = input[0];
 }
 
@@ -44,7 +42,7 @@ static void linebreak(const char* _) {
     struct global_data* data = global_data_get();
 
     struct buffer* old = data->lines;
-    
+
     ++data->lines_size;
     data->lines = malloc(sizeof(struct buffer) * data->lines_size);
 
@@ -106,17 +104,6 @@ static void quit(const char* _) {
     .func = fun \
 }
 
-const static struct mode switching = {
-    .name = '\0',
-    .binds = {
-        BIND(default_mode, 1, 27), //27 is esc
-        ARGS_BIND(switch_mode, "x", 1, CTRL('x')),
-        ARGS_BIND(switch_mode, " ", 1, CTRL(' ')),
-
-        ZERO_BIND
-    }
-};
-
 const static struct mode typing = {
     .name = '\t',
     .binds = {
@@ -127,10 +114,10 @@ const static struct mode typing = {
         KE(a), KE(b), KE(c), KE(d), KE(e), KE(f), KE(g), KE(h), KE(i), KE(j), KE(k),
         KE(l), KE(m), KE(n), KE(o), KE(p), KE(q), KE(r), KE(s), KE(t), KE(u), KE(v),
         KE(w), KE(x), KE(y), KE(z), KE(0), KE(1), KE(2), KE(3), KE(4), KE(5), KE(6),
-        KE(7), KE(8), KE(9), KE(!), KE(@), KE(#), KE($), KE(%), KE(^), KE(*), 
+        KE(7), KE(8), KE(9), KE(!), KE(@), KE(#), KE($), KE(%), KE(^), KE(*),
         KEQ('(', "("), KEQ(')', ")"), KE(-), KE(_), KE(+), KE(=), KE(`), KE(~), KE(|),
-        KEQ(',', ","), KE(<), KE(.), KE(>), KE(/), KEQ('?', "?"), 
-        KEQ('[', "["), KEQ(']', "]"), KEQ('{', "{"), KEQ('}', "}"), 
+        KEQ(',', ","), KE(<), KE(.), KE(>), KE(/), KEQ('?', "?"),
+        KEQ('[', "["), KEQ(']', "]"), KEQ('{', "{"), KEQ('}', "}"),
         KE(;), KE(:), KEQ('\'', "\'"), KEQ('\"', "\""), KEQ('\\', "\\"),
 
         BIND(linebreak, 1, '\n'),
@@ -139,28 +126,9 @@ const static struct mode typing = {
     }
 };
 
-const static struct mode general = {
-    .name = 'x',
-    .binds = {
-        BIND(quit, 1, 'c'),
-
-        ZERO_BIND
-    }
-};
-
-const static struct mode movement = {
-    .name = ' ',
-    .binds = {
-        ZERO_BIND
-    },
-};
-
 //Never forget the zero bind
 const static struct mode* modes[] = {
-    &switching,
     &typing,
-    &general,
-    &movement
 };
 
 static unsigned char exec(const int* input, unsigned char size, const struct key_bind* binds) {

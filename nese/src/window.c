@@ -80,7 +80,7 @@ void window_load_curses(struct window* input, WINDOW* window) {
     wrefresh(input->window);
 }
 
-void window_load_data_buffer(struct window* input, 
+void window_load_data_buffer(struct window* input,
         struct data_buffer* buff) {
     input->data_buff = buff;
 }
@@ -119,12 +119,12 @@ void window_draw(struct window* input, size_t index) {
         size_t pos = 0;
 
         for(size_t i = 0; i < (input->data_buff->remark_size); i++) {
-            if(input->data_buff->remark_stack[i].pos >= 
+            if(input->data_buff->remark_stack[i].pos >=
                     input->data_buff->buffer.size)
                 break; //Should throw an error
 
             if(input->data_buff->remark_stack[i].pos > pos) {
-                waddnstr(input->window, &input->data_buff->buffer.text[pos], 
+                waddnstr(input->window, &input->data_buff->buffer.text[pos],
                         input->data_buff->remark_stack[i].pos - pos);
                 pos = input->data_buff->remark_stack[i].pos;
             }
@@ -145,7 +145,7 @@ void window_draw(struct window* input, size_t index) {
                     wcolor_set(input->window, i + 1 + index, 0);
                     break;
                 case FONT:
-                    wattrset(input->window, 
+                    wattrset(input->window,
                             input->data_buff->remark_stack[i].data);
                     break;
             }
@@ -173,7 +173,7 @@ enum ErrType window_input(struct window* input) {
 
     int found = 0;
     for(size_t i = input->data_buff->behaviour_size - 1; i >= 0; i--) {
-        for(size_t j = 0; 
+        for(size_t j = 0;
             j < (input->data_buff->behaviour_stack[i].bind_size); j++) {
             for(unsigned char k = 0; k < KEYS_SIZE; k++) {
                 if(input->data_buff->behaviour_stack[i].binds[j].bind[k]
