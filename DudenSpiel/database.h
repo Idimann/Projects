@@ -2,6 +2,7 @@
 
 //Alle
 std::string NORM_WORDS1[] = {
+    "Kabel",
     "Faeulen",
     "Saeulen",
     "Gitter",
@@ -50,6 +51,7 @@ std::string NORM_WORDS1[] = {
 };
 
 std::string NORM_WORDS2[] = {
+    "Kabel",
     "Faeule",
     "Saeule",
     "Gitter",

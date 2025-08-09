@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 
                 output += i == 0 ? NORM_WORDS2[choice] : NORM_WORDS1[choice];
             } else {
-                const int choice = random() % 51;
+                const int choice = random() % 52;
 
                 already.push_back(choice);
 
