@@ -962,7 +962,7 @@ int main(int argc, char* argv[]) {
 
     int mode;
     printf("Welche Version des Spiels ist erwuenscht?\n\n"
-            "0. Alle Dinge\n"
+            "0. Alles\n"
             "1. Classic\n"
             "2. Easy\n"
             "3. Hard\n\n");
