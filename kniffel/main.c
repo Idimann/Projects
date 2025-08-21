@@ -158,19 +158,19 @@ Field ALL_LIST[] = {
     },
 
     [19] = {
-        .value = 89,
+        .value = 35,
         .type = EXTREMES,
         .done = 0
     },
 
     [20] = {
-        .value = 79,
+        .value = 20,
         .type = MIDDLE_STUFF,
         .done = 0
     },
 
     [21] = {
-        .value = 69,
+        .value = 30,
         .type = NON_PRIMES,
         .done = 0
     },
@@ -410,7 +410,7 @@ Field HARD_LIST[] = {
     },
 
     [8] = {
-        .value = 20,
+        .value = 25,
         .type = FULL_HOUSE,
         .done = 0,
     },
@@ -422,7 +422,7 @@ Field HARD_LIST[] = {
     },
 
     [10] = {
-        .value = 55,
+        .value = 45,
         .type = BIG_STREET,
         .done = 0,
     },
@@ -434,25 +434,25 @@ Field HARD_LIST[] = {
     },
 
     [12] = {
-        .value = 89,
+        .value = 35,
         .type = EXTREMES,
         .done = 0
     },
 
     [13] = {
-        .value = 79,
+        .value = 20,
         .type = MIDDLE_STUFF,
         .done = 0
     },
 
     [14] = {
-        .value = 69,
+        .value = 30,
         .type = NON_PRIMES,
         .done = 0
     },
 
     [15] = {
-        .value = 99,
+        .value = 50,
         .type = KNIFFEL,
         .done = 0,
     },
