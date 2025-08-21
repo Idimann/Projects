@@ -220,13 +220,13 @@ Field NORMAL_LIST[] = {
     },
 
     [6] = {
-        .value = 0,
+        .value = -1,
         .type = THREE_PASH,
         .done = 0,
     },
 
     [7] = {
-        .value = 0,
+        .value = -1,
         .type = FOUR_PASH,
         .done = 0,
     },
@@ -256,7 +256,7 @@ Field NORMAL_LIST[] = {
     },
 
     [12] = {
-        .value = 0,
+        .value = -1,
         .type = CHANCE,
         .done = 0,
     },
@@ -300,13 +300,13 @@ Field EASY_LIST[] = {
     },
 
     [6] = {
-        .value = 0,
+        .value = -1,
         .type = THREE_PASH,
         .done = 0,
     },
 
     [7] = {
-        .value = 0,
+        .value = -1,
         .type = FOUR_PASH,
         .done = 0,
     },
@@ -348,13 +348,13 @@ Field EASY_LIST[] = {
     },
 
     [14] = {
-        .value = 35,
+        .value = 40,
         .type = KNIFFER,
         .done = 0,
     },
 
     [15] = {
-        .value = 0,
+        .value = -1,
         .type = CHANCE,
         .done = 0,
     },
@@ -398,13 +398,13 @@ Field HARD_LIST[] = {
     },
 
     [6] = {
-        .value = 0,
+        .value = -1,
         .type = THREE_PASH,
         .done = 0,
     },
 
     [7] = {
-        .value = 0,
+        .value = -1,
         .type = FOUR_PASH,
         .done = 0,
     },
@@ -458,7 +458,7 @@ Field HARD_LIST[] = {
     },
 
     [16] = {
-        .value = 0,
+        .value = -1,
         .type = CHANCE,
         .done = 0,
     },
@@ -528,9 +528,19 @@ int calcScore(Field* array) {
 }
 
 int canDo(const int index, int throwing[], const int mode) {
-    int returning = 0;
-
+    Field* LIST = createArray(mode);
+    int returning = LIST[index].value;
     int pashes[6] = {0};
+
+    const int shouldAdd = returning == -1;
+    if (shouldAdd)
+        returning = 0;
+    for(int i = 0; i < 5; i++) {
+        if (shouldAdd)
+            returning += throwing[i];
+        ++pashes[throwing[i] - 1];
+    }
+
     int donePash = 0;
 
     int doneHouse = 2;
@@ -540,8 +550,6 @@ int canDo(const int index, int throwing[], const int mode) {
 
     int quit = 0;
 
-    Field* LIST = createArray(mode);
-
     switch(LIST[index].type) {
         case NUMBERS:
             for(int i = 0; i < 5; i++) {
@@ -550,11 +558,6 @@ int canDo(const int index, int throwing[], const int mode) {
             }
             break;
         case THREE_PASH:
-            for(int i = 0; i < 5; i++) {
-                returning += throwing[i];
-                ++pashes[throwing[i] - 1];
-            }
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] >= 3) {
                     donePash = 1;
@@ -567,11 +570,6 @@ int canDo(const int index, int throwing[], const int mode) {
 
             break;
         case FOUR_PASH:
-            for(int i = 0; i < 5; i++) {
-                returning += throwing[i];
-                ++pashes[throwing[i] - 1];
-            }
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] >= 4) {
                     donePash = 1;
@@ -584,9 +582,6 @@ int canDo(const int index, int throwing[], const int mode) {
 
             break;
         case FULL_HOUSE:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] == 2 && doneHouse == 2)
                     --doneHouse;
@@ -597,14 +592,11 @@ int canDo(const int index, int throwing[], const int mode) {
                     --doneHouse;
             }
 
-            if(!doneHouse)
-                returning = LIST[index].value;
+            if(doneHouse)
+                returning = 0;
 
             break;
         case SMALL_STREET:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(!((pashes[i] == 2 && !smallStreet) || pashes[i] <= 1)) {
                     quit = 1;
@@ -620,14 +612,11 @@ int canDo(const int index, int throwing[], const int mode) {
                     smallStreet = 1;
             }
 
-            if(!quit && advancing >= 4)
-                returning = LIST[index].value;
+            if(quit || advancing < 4)
+                returning = 0;
 
             break;
         case BIG_STREET:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] > 1) {
                     quit = 1;
@@ -640,14 +629,11 @@ int canDo(const int index, int throwing[], const int mode) {
                     advancing = 0;
             }
 
-            if(!quit && advancing == 5)
-                returning = LIST[index].value;
+            if(quit || advancing != 5)
+                returning = 0;
 
             break;
         case KNIFFEL:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] == 5) {
                     quit = 1;
@@ -655,14 +641,11 @@ int canDo(const int index, int throwing[], const int mode) {
                 }
             }
 
-            if(quit)
-                returning = LIST[index].value;
+            if(!quit)
+                returning = 0;
 
             break;
         case KNIFFER:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] >= 4) {
                     kniffer = i;
@@ -681,18 +664,13 @@ int canDo(const int index, int throwing[], const int mode) {
                 }
             }
 
-            if(quit && kniffer != -1)
-                returning = LIST[index].value;
+            if(!quit || kniffer == -1)
+                returning = 0;
 
             break;
         case CHANCE:
-            for(int i = 0; i < 5; i++)
-                returning += throwing[i];
             break;
         case MINI_STREET:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i])
                     ++advancing;
@@ -700,92 +678,71 @@ int canDo(const int index, int throwing[], const int mode) {
                     advancing = 0;
             }
 
-            if(advancing >= 3)
-                returning = LIST[index].value;
+            if(advancing < 3)
+                returning = 0;
             break;
         case TWO_PAIRS:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++) {
                 if(pashes[i] >= 2)
                     --doneHouse;
             }
 
-            if(!doneHouse)
-                returning = LIST[index].value;
+            if(doneHouse)
+                returning = 0;
 
             break;
         case FOUR_EVENS:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++)
                 if((i + 1) % 2 != 0 && pashes[i] > 0)
                     quit += pashes[i];
 
-            if(quit < 2)
-                returning = LIST[index].value;
+            if(quit >= 2)
+                returning = 0;
 
             break;
         case FOUR_UNEVENS:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++)
                 if((i + 1) % 2 == 0 && pashes[i] > 0)
                     quit += pashes[i];
 
-            if(quit < 2)
-                returning = LIST[index].value;
+            if(quit >= 2)
+                returning = 0;
 
             break;
         case ONLY_ONCE:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++)
                 if(pashes[i] > 1)
                     quit = 1;
 
-            if(!quit)
-                returning = LIST[index].value;
+            if(quit)
+                returning = 0;
 
             break;
         case EXTREMES:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++)
                 if(i != 0 && i != 5 && pashes[i] > 0)
                     quit = 1;
 
-            if(!quit)
-                returning = LIST[index].value;
+            if(quit)
+                returning = 0;
 
             break;
         case MIDDLE_STUFF:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++)
                 if((i == 0 || i == 5) && pashes[i] > 0)
                     quit = 1;
 
-            if(!quit)
-                returning = LIST[index].value;
+            if(quit)
+                returning = 0;
 
             break;
         case NON_PRIMES:
-            for(int i = 0; i < 5; i++)
-                ++pashes[throwing[i] - 1];
-
             for(int i = 0; i < 6; i++)
                 if((i == 1 || i == 2 || i == 4) && pashes[i] > 0)
                     quit = 1;
 
-            if(!quit)
-                returning = LIST[index].value;
+            if(quit)
+                returning = 0;
 
             break;
     }
